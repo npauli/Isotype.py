@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-"""Final Project for introscicomp2014: Antibody Isotype calculator.  Problem: our lab uses a very slow and inefficient program to determine antibody sequences.  Other labmates had developed means to analyze mutation and gene repertoire information but currently there is no way to properly determine the antibody isotype.  This program is designed to scan FASTA sequence files of immunologobulin genes and provide a best match, by percentage, to the antibody isotype that is likely being utilized. IgM, IgG1, IgG2, IgG3, IgG4, IgA1, IgA2, IgD, and IgE are all represented in our readout"""
+"""Final Project for introscicomp2014: Antibody Isotype calculator.  Problem: our lab uses a very slow and inefficient program to determine antibody sequences.  Other labmates had developed means to analyze mutation and gene repertoire information but currently there is no way to properly determine the antibody isotype.  This program will eventually scan FASTA sequence files of immunologobulin genes and provide a best match, by percentage, to the antibody isotype that is likely being utilized. IgM, IgG1, IgG2, IgG3, IgG4, IgA1, IgA2, IgD, and IgE are all represented in our readout"""
 
 __author__ = 'Noel Pauli (npauli@uchicago.edu)'
 __version__ = '0.1.0'
@@ -32,40 +32,6 @@ motifs = {'IgG1': ['CCTCCACCAAGGGCCCATCGGTCTTCCCCCTGGCACCCTCCT', 0],
           'IgE': ['CCTCCACACAGAGCCCATCCGTCTTCCCCTTGACCCGCTGCT', 0]} 
    
 
-
-# assign the longest sequence
-# to s1, and the shortest to S2
-# L1 is the length of the longest,
-# l2 that of the shortest
-
-
-
-#def sequence_length(seq1):
-#    l1 = len(seq1)
-#    l2 = len(motifs.get("IgG1")[0])
-    #len simply counts the number of characters in the string
-    #print motifs.get('IgG1')
-
-#    if l1 >= l2:
-#        s1 = seq1
-#        s2 = str(motifs)
-#    return indicate_startpoint(l1, l2, s1, s2)
-    
-
-# If the length of seq1 is greater than seq2, do basically nothing
-
-# we need to find a place to start the sequence alignment. This function allows the code to iterate through the number of sequence positions on the fasta file incrimenatally.  It will stop always 42 base pairs from the end to eliminate defintion errors. 
-
-#def indicate_startpoint(l1, l2, s1, s2):
-#    for q in range(l1-l2):
-#        #startpoint = z
-#        score = calculate_match(s1, s2, l1, l2, q)
-#        print score
-#    return score
-    
-# function that computes a score
-# by returning the number of matches
-# starting from arbitrary startpoint
 
 #finds best alignment for an Ig sequence
 def calculate_match(s1, s2, l1, l2, startpoint):
@@ -107,7 +73,7 @@ def calculate_score(s1, motif):
     my_best_ratio = 0
 
 #This looks for the best match in the particular motif from the sequence length minus 42bp
-    for i in range(l1 - l2):
+    for i in range(l1):
         z = calculate_match(s1, motif, l1, l2, i)
         #print z
         if z [0] > my_best_score:
@@ -164,12 +130,23 @@ def find_best_motif(s1):
 # import CSV
 
 if __name__ == "__main__":
-    seq1 = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNATNCNGGTAGCTGGGGGGTCCTCAGGCTCTCCTGTGTAGTCTCTGGACTCACTTTCGACAATGCCTGGATGAGCTGGGTCCGCCAGGCTCCAGGGAAGGGGCTGGAGTGGGTTGGCCGTATTAAAAGCAAATCTGATGGTGGGACAACAGACTTCGCTGCACCCGTGAAAGGCAGATTCACCATCTCTAGAGATGACTCAAAAAATACAGTGTTTCTGCAAATGAACAGCCTGCAGACCGAGGACACAGCCGTGTATTACTGTGCCACAGCCCCCGGATTCCACTATTATGCTCCCTTTGACTACTGGGGCCCGGGAACCCTGGTCACCGTCTCCTCAGCCTCCACCAAGGGCCCATCGGTCTTCCCCCTGGCGCCCTGCTCCAGGAGCACCTCCGAGAGCACAGCGGCCCTGGGCTGCCTGGTCAAGGACTACAAAA"
+
+#These are three hardcoded examples of the antibody sequences to be analzyed
+   
+#IgG2
+    #seq1 = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNATNCNGGTAGCTGGGGGGTCCTCAGGCTCTCCTGTGTAGTCTCTGGACTCACTTTCGACAATGCCTGGATGAGCTGGGTCCGCCAGGCTCCAGGGAAGGGGCTGGAGTGGGTTGGCCGTATTAAAAGCAAATCTGATGGTGGGACAACAGACTTCGCTGCACCCGTGAAAGGCAGATTCACCATCTCTAGAGATGACTCAAAAAATACAGTGTTTCTGCAAATGAACAGCCTGCAGACCGAGGACACAGCCGTGTATTACTGTGCCACAGCCCCCGGATTCCACTATTATGCTCCCTTTGACTACTGGGGCCCGGGAACCCTGGTCACCGTCTCCTCAGCCTCCACCAAGGGCCCATCGGTCTTCCCCCTGGCGCCCTGCTCCAGGAGCACCTCCGAGAGCACAGCGGCCCTGGGCTGCCTGGTCAAGGACTACAAAA"
     
+#IgA2
+    #seq1 = "NNNNNGNTGTGCCTGGGGGGTCCTGAGACTCTCCTGTGCAGCCTCTGGATTCAGCTTTAGCACCTATGCCATGAAGTGGGTCCGCCAGGCTCCAGGGAAGGGGCTGGAGTGGGTCTCTGCTATTATTGGTAGTGGTGTTAGCACATACTACGCAGACTCCGTGAAGGGCCGGTTCACCATCTCCAGAGACAATTCCAAGAACACGCTGTATCTGCAAATGAACAGCCTGACCGCCGAGGACACGGCCGTATATTACTGTGCGAAGAAGCGGGTTGGTACTGGCTGGAACTACGGGGGGTTTGACTACTGGGGTCAGGGAACCCTGGTCACCGTCTCCTCAGCATCCCCGACCAGCCCCAAGGTCTTCCCGCTGANCCNCTANAGCAGCNCCTAGGATNGGAAGGTGGTCGTNGNNTGCCTGGTCCANNGNTTGTTNCCNNGNNAGCCACTCAGNGTGACCTGGANCGAAAGCNGACANAACGTNACCTCCANAAACTTCCCACCNAGCCAGGATN"
+
+#IgM
+    seq1 = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTCTGGATTCACCATTAGTACCTATTGGATGAGTTGGGTCCGCCAGGCTCCTGGGAAGGGGCTCGAGTGGGTGGCCAACATAAAGCCAGATGGAACTGCCAAATATTATGTGGACTCTGTGAGGGGCCGATTCACCATCTCCAGAGACAACGCCAAGAACTCACTTTATCTGCAAATCAACAGCCTGCGAGCCGAGGACACGGCCGTTTACTACTGTGCGCGAGACAGCTTATGGTCGCTTGACTGCCGGGGGCAGGGAACCCTGGTCACCGTCTCCTCAGGGAGTGCATCCGCCCCAACCCTTTTCCCCCTCGTCTCCNGTGAGAATNCCTAAA"
+
+
     find_best_motif(seq1)
     #inidicate_startpoint()
 
-# perhaps make the output as texshade?
+#eventually this code will be adapted to integrate with Denise and Karlynn's Ig gene analyzer program from last years class to scan FASTA sequence files in order and present the data in their CSV output
 
 
 
